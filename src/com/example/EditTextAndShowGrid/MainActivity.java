@@ -54,17 +54,6 @@ public class MainActivity extends Activity {
         /*new GetContacts().execute(new String[] {
                 url + "moc"
         });*/
-        /*String s="Мос";
-        prepareList();
-       // Log.i("HA-HA",myresults);
-        // prepared arraylist and passed it to the Adapter class
-        mAdapter = new GridviewAdapter(this,listCountry, listFlag);
-       // Set custom adapter to gridview
-        gridView = (GridView) findViewById(R.id.gridView1);
-        gridView.setAdapter(mAdapter);*/
-        /*new GetContacts().execute(new String[] {
-                url + "moc"
-        });/*
         /*TextView myOutputBox = (TextView) findViewById(R.id.myOutputBox);
         myOutputBox.setText(myresults);*/
 
@@ -98,8 +87,7 @@ public class MainActivity extends Activity {
                     }
                 });
                 t.start();
-               // new GetContacts().execute(new String[]{url});
-
+               
                /* new GetContacts().execute(new String[] {
                         url + s*/
                 }

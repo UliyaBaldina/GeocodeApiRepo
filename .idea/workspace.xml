@@ -67,11 +67,11 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/example/EditTextAndShowGrid/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334" vertical-offset="2227" max-vertical-offset="4964">
-              <caret line="161" column="45" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.33333334" vertical-offset="1003" max-vertical-offset="4760">
+              <caret line="89" column="15" selection-start-line="89" selection-start-column="15" selection-end-line="89" selection-end-column="15" />
               <folding>
-                <element signature="e#2888#3587#0" expanded="true" />
-                <element signature="e#3568#3569#0" expanded="true" />
+                <element signature="e#2435#3134#0" expanded="true" />
+                <element signature="e#3115#3116#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -568,8 +568,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1105" max-vertical-offset="2261">
           <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -628,8 +628,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1105" max-vertical-offset="2261">
           <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -688,8 +688,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="742" max-vertical-offset="2261">
           <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -748,8 +748,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="4709" max-vertical-offset="5321">
           <caret line="293" column="0" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -796,8 +796,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="3967" max-vertical-offset="4454">
           <caret line="245" column="31" selection-start-line="245" selection-start-column="31" selection-end-line="245" selection-end-column="31" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -937,11 +937,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/EditTextAndShowGrid/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="2227" max-vertical-offset="4964">
-          <caret line="161" column="45" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="1003" max-vertical-offset="4760">
+          <caret line="89" column="15" selection-start-line="89" selection-start-column="15" selection-end-line="89" selection-end-column="15" />
           <folding>
-            <element signature="e#2888#3587#0" expanded="true" />
-            <element signature="e#3568#3569#0" expanded="true" />
+            <element signature="e#2435#3134#0" expanded="true" />
+            <element signature="e#3115#3116#0" expanded="true" />
           </folding>
         </state>
       </provider>
