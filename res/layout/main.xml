@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:onClick="btnshow_onClick"
+            android:layout_alignParentTop="true"
+            android:text="Find"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_show"/>
+    <EditText android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:id="@+id/et_place"
+              android:layout_toLeftOf="@id/btn_show"
+              android:inputType="text"
+              android:hint="Enter Text"/>
+
+   <LinearLayout android:layout_height="wrap_content"
+                 android:layout_width="wrap_content" android:id="@+id/linearLayout">
+       <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text=""
+                android:id="@+id/myOutputBox"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginTop="60dp"
+                android:padding="10dp"/>
+   </LinearLayout>
+      <GridView
+            android:layout_height="wrap_content"
+            android:id="@+id/gridView1"
+            android:layout_width="match_parent"
+            android:numColumns="auto_fit"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:layout_marginTop="60dp">
+    </GridView>
+</RelativeLayout>
