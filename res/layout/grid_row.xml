@@ -5,12 +5,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@drawable/border"
+        android:background="#000"
         android:padding="5dp">
     <ImageView
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:id="@+id/imageView1"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:src="@drawable/icon"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
@@ -20,9 +20,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
-            android:layout_below="@+id/imageView1"
-            android:layout_marginTop="2dp"
-            android:layout_centerHorizontal="true"
-            android:textSize="18sp"
-            android:ellipsize="marquee"></TextView>
+            android:textSize="14sp"
+            android:background="#7000"
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:layout_alignBottom="@+id/imageView1" android:layout_centerHorizontal="true"></TextView>
+    <TextView
+            android:text="TextView"
+            android:id="@+id/textViewLatLng"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"></TextView>
 </RelativeLayout>

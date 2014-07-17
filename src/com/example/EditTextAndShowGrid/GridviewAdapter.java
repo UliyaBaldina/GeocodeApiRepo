@@ -1,79 +1,76 @@
 package com.example.EditTextAndShowGrid;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
 import java.util.ArrayList;
 
 /* Created by YULIYA on 14.07.2014.
  */
 public class GridviewAdapter  extends BaseAdapter
     {
-        private ArrayList<String> listCountry;
-        private ArrayList<Integer> listFlag;
-        private Activity activity;
-
-        public GridviewAdapter(Activity activity,ArrayList<String> listCountry, ArrayList<Integer> listFlag) {
+        private ArrayList<String> listFormattedAddress;
+        private ArrayList<String> listImagesURL;
+        private Context context;
+        public GridviewAdapter(Context context, ArrayList<String> listFormattedAddress, ArrayList<String> listImagesURL) {
             super();
-            this.listCountry = listCountry;
-            this.listFlag = listFlag;
-            this.activity = activity;
+            this.listFormattedAddress = listFormattedAddress;
+            this.listImagesURL = listImagesURL;
+            this.context = context;
         }
-
         @Override
         public int getCount() {
             // TODO Auto-generated method stub
-            return listCountry.size();
+            return listFormattedAddress.size();
         }
-
         @Override
-        public String getItem(int position) {
+        public Object getItem(int position) {
             // TODO Auto-generated method stub
-            return listCountry.get(position);
+            return null;
         }
-
         @Override
         public long getItemId(int position) {
             // TODO Auto-generated method stub
             return 0;
         }
-
-        public static class ViewHolder
-        {
-            public ImageView imgViewFlag;
-            public TextView txtViewTitle;
-        }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
-            ViewHolder view;
-            LayoutInflater inflator = activity.getLayoutInflater();
-
-            if(convertView==null)
-            {
-                view = new ViewHolder();
-                convertView = inflator.inflate(R.layout.grid_row, null);
-
-                view.txtViewTitle = (TextView) convertView.findViewById(R.id.textView1);
-                view.imgViewFlag = (ImageView) convertView.findViewById(R.id.imageView1);
-
-                convertView.setTag(view);
+            View grid;
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            TextView textView;
+            ImageView imageView;
+            if (convertView == null) {
+                grid = new View(context);
+                grid = inflater.inflate(R.layout.grid_row, null);
+                textView = (TextView) grid.findViewById(R.id.textView1);
+                imageView = (ImageView)grid.findViewById(R.id.imageView1);
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                        .cacheInMemory()
+                        .cacheOnDisc()
+                        .build();
+                imageLoader.displayImage(listImagesURL.get(position), imageView, options);
+                textView.setText(listFormattedAddress.get(position));
+            } else {
+                grid = (View) convertView;
             }
-            else
-            {
-                view = (ViewHolder) convertView.getTag();
-            }
-
-            view.txtViewTitle.setText(listCountry.get(position));
-            view.imgViewFlag.setImageResource(listFlag.get(position));
-
-            return convertView;
+            return grid;
         }
-
     }
+
+
 

@@ -3,11 +3,12 @@ package com.example.EditTextAndShowGrid;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,49 +17,54 @@ import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 import android.os.Handler;
 
 import com.google.gson.Gson;
 
 public class MainActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
+
     String url = "http://maps.googleapis.com/maps/api/geocode/json?address=";
 
     private ProgressDialog pDialog;
-    String myresults="kdjo";
+    String myresults=null;
     private GridviewAdapter mAdapter;
     private GridView gridView;
-    private ArrayList<String> listCountry;
-    private ArrayList<Integer> listFlag;
+    private ArrayList<String> listFormattedAddress;
+    private ArrayList<String> listImagesURL;
     Handler handler=new Handler();
     Thread t;
     final String LOG_TAG = "myLogs";
-    private final long DELAY = 1000; // in ms
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         handler = new Handler() {
             public void handleMessage(android.os.Message msg) {
-                mAdapter = new GridviewAdapter(MainActivity.this, listCountry, listFlag);
+                mAdapter = new GridviewAdapter(MainActivity.this,listFormattedAddress, listImagesURL);
                 // Set custom adapter to gridview
                 gridView = (GridView) findViewById(R.id.gridView1);
                 gridView.setAdapter(mAdapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    /*@Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id)  {
+                        Toast.makeText(MainActivity.this, "la-la"+position+"la-la"+id, Toast.LENGTH_SHORT).show();
+                    }*/
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position,
+                                            long id) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?q=37.771008,+-122.41175&iwloc=A&hl=ru "));
+                        startActivity(browserIntent);
+
+                        /*TextView textView1 = (TextView)findViewById(R.id.textView1);
+                        Toast.makeText(getBaseContext(), textView1.getText().toString(), Toast.LENGTH_LONG).show();*/
+                }});
             };
         };
-       //new GetContacts().execute();
-        /*new GetContacts().execute(new String[] {
-                url + "moc"
-        });*/
-        /*TextView myOutputBox = (TextView) findViewById(R.id.myOutputBox);
-        myOutputBox.setText(myresults);*/
 
-       final EditText myTextBox = (EditText) findViewById(R.id.et_place);
-
+        final EditText myTextBox = (EditText) findViewById(R.id.et_place);
         myTextBox.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {}
@@ -68,107 +74,37 @@ public class MainActivity extends Activity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-
                 t = new Thread(new Runnable()
                 {
                       public void run() {
-                        for (int i = 1; i <= 10; i++) {
-                            // долгий процесс
-                            try { Thread.sleep(2000);
-                                getJson(url+myTextBox.getText().toString());
-                                handler.sendEmptyMessage(i);
-                            }                   // Wait 1000 milliseconds
-                            catch (InterruptedException e) {
-                            }
-
-                            // пишем лог
-                           // Log.d(LOG_TAG, "i = " + i);
-                        }
+                for (int i = 1; i <= 10; i++) {
+                // долгий процесс
+                    try {
+                        Thread.sleep(2000);
+                        //проверка если myTextBox.getText().toString() exist в БД, то берем оттуда, если нет, то парсим
+                        getJson(url+myTextBox.getText().toString());
+                        //добавляем данные в БД
+                        handler.sendEmptyMessage(i);
+                    }                   // Wait 1000 milliseconds
+                    catch (InterruptedException e) {}
+                }
                     }
                 });
                 t.start();
-               
-               /* new GetContacts().execute(new String[] {
-                        url + s*/
-                }
-                //TO DO
-                //функция, которая делает прасинг и помещает данные в грид
-                //в функцию передавать данные, которые вводит польз-ль т.е. переменную S
-                //1, ф-я скачивает нужный json
-                //2, ф-я парсит
-                //3 помещает данные в грид
-
+            }
         });
-      /*  mAdapter = new GridviewAdapter(this,listCountry, listFlag);
-        // Set custom adapter to gridview
-        gridView = (GridView) findViewById(R.id.gridView1);
-        gridView.setAdapter(mAdapter);*/
-
-    }
-    public void prepareList()
-    {
-        /*listCountry = new ArrayList<String>();
-
-        listCountry.add("india");
-        listCountry.add("Brazil");
-        listCountry.add("Canada");
-        listCountry.add("China");
-        listCountry.add("France");
-        listCountry.add("Germany");
-        listCountry.add("Iran");
-        listCountry.add("Italy");
-        listCountry.add("Japan");
-        listCountry.add("Korea");
-        listCountry.add("Mexico");
-        listCountry.add("Netherlands");
-        listCountry.add("Portugal");
-        listCountry.add("Russia");
-        listCountry.add("Saudi Arabia");
-        listCountry.add("Spain");
-        listCountry.add("Turkey");
-        listCountry.add("United Kingdom");
-        listCountry.add("United States");*/
-
-        listFlag = new ArrayList<Integer>();
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
-        listFlag.add(R.drawable.ic_launcher);
     }
     /**
      * Async task class to get json by making HTTP call
      */
     public Void getJson (String url) {
         ServiceHandler sh = new ServiceHandler();
-        //КОСТЫЛЬ??
-        //String url = params[0];
-        //
-//            // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-//
-        Log.d("Response: ", "> " + jsonStr);
         if (jsonStr != null) {
             try {
-                prepareList();
                 myresults = jsonStr;
-                listCountry = getFullAddressFromJSON(jsonStr);
-                    /*mAdapter = new GridviewAdapter(this, getFullAddressFromJSON(myresults), listFlag);
-                    gridView = (GridView) findViewById(R.id.gridView1);
-                    gridView.setAdapter(mAdapter);*/
+                listFormattedAddress = getFullAddressFromJSON(jsonStr);
+                listImagesURL = getLatLngFromJSON(jsonStr);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -176,49 +112,6 @@ public class MainActivity extends Activity {
             Log.e("ServiceHandler", "Couldn't get any data from the url");
         }
         return null;
-    }
-    private class GetContacts extends AsyncTask < String, Void, Void > {
-       @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-           pDialog.show();        }
-
-        @Override
-       protected Void doInBackground(String... params) {
-           // Creating service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-            //КОСТЫЛЬ??
-            String url = params[0];
-//
-//            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-//
-            Log.d("Response: ", "> " + jsonStr);
-           if (jsonStr != null) {
-               try {
-                    prepareList();
-                    myresults = jsonStr;
-                    listCountry=getFullAddressFromJSON(jsonStr);
-                    /*mAdapter = new GridviewAdapter(this, getFullAddressFromJSON(myresults), listFlag);
-                    gridView = (GridView) findViewById(R.id.gridView1);
-                    gridView.setAdapter(mAdapter);*/
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialog.isShowing()) pDialog.dismiss();
-        }
     }
 
     public ArrayList getFullAddressFromJSON( String jsonString) {
@@ -228,7 +121,6 @@ public class MainActivity extends Activity {
         List < Results > results = response.results;
         for (Results result: results) {
             arrayFormattedAddress.add(result.formattedAddress);
-            Log.i("d,", result.formattedAddress);
         }
         return arrayFormattedAddress;
     }
@@ -236,7 +128,7 @@ public class MainActivity extends Activity {
         ArrayList  arrayLatLng = new ArrayList ();
         String imageLink = "http://maps.googleapis.com/maps/api/staticmap?center=";
         String imageZoomParameters ="zoom=13";
-        String imageSizeParameters="size=200x200";
+        String imageSizeParameters="size=120x120";
         String latLng = null;
         Gson gson = new Gson();
         GeocodeResponse response = gson.fromJson(jsonString, GeocodeResponse.class);
@@ -248,31 +140,31 @@ public class MainActivity extends Activity {
                      imageZoomParameters +"&"+
                      imageSizeParameters;
             arrayLatLng.add(latLng);
-            Log.i("d,", latLng);        }
+        }
         return arrayLatLng;
     }
 
     public void btnshow_onClick(View v) {
-       /* EditText myTextBox = (EditText) findViewById(R.id.et_place);
-        String res = myTextBox.getText().toString();
-        new GetContacts().execute(new String[] {url+res});*/
-        mAdapter = new GridviewAdapter(this,listCountry, listFlag);
-        // Set custom adapter to gridview
-        gridView = (GridView) findViewById(R.id.gridView1);
-        gridView.setAdapter(mAdapter);
-       /* EditText myTextBox = (EditText) findViewById(R.id.et_place);
-        String res = myTextBox.getText().toString();
-        Log.i("HA-HA", res);
-        new GetContacts().execute(new String[] {url+res});
-
-       // Log.i("HA-HA",myresults);
-       /* getFullAddressFromJSON(myresults);
-        getLatLngFromJSON(myresults);
-        prepareList();
-        // Log.i("HA-HA",myresults);*/
-        // prepared arraylist and passed it to the Adapter class
-
+        final EditText myTextBox = (EditText) findViewById(R.id.et_place);
+        t = new Thread(new Runnable()
+        {
+            public void run() {
+        for (int i = 1; i <= 10; i++) {
+        // долгий процесс
+            try {
+                Thread.sleep(2000);
+                //проверка если myTextBox.getText().toString() exist в БД, то берем оттуда, если нет, то парсим
+                getJson(url+myTextBox.getText().toString());
+                //добавляем данные в БД
+                handler.sendEmptyMessage(i);
+            }                   // Wait 1000 milliseconds
+            catch (InterruptedException e) {}
+        }
+            }
+        });
+        t.start();
     }
+
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
