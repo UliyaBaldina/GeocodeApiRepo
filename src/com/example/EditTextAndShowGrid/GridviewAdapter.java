@@ -21,12 +21,14 @@ public class GridviewAdapter  extends BaseAdapter
     {
         private ArrayList<String> listFormattedAddress;
         private ArrayList<String> listImagesURL;
+        private ArrayList<String> listLatLng;
         private Context context;
-        public GridviewAdapter(Context context, ArrayList<String> listFormattedAddress, ArrayList<String> listImagesURL) {
+        public GridviewAdapter(Context context, ArrayList<String> listFormattedAddress, ArrayList<String> listImagesURL,ArrayList<String> listLatLng) {
             super();
             this.listFormattedAddress = listFormattedAddress;
             this.listImagesURL = listImagesURL;
             this.context = context;
+            this.listLatLng = listLatLng;
         }
         @Override
         public int getCount() {
@@ -50,11 +52,13 @@ public class GridviewAdapter  extends BaseAdapter
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             TextView textView;
+            TextView textViewLatLng;
             ImageView imageView;
             if (convertView == null) {
                 grid = new View(context);
                 grid = inflater.inflate(R.layout.grid_row, null);
                 textView = (TextView) grid.findViewById(R.id.textView1);
+                textViewLatLng = (TextView) grid.findViewById(R.id.textViewLatLng);
                 imageView = (ImageView)grid.findViewById(R.id.imageView1);
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.init(ImageLoaderConfiguration.createDefault(context));
@@ -65,6 +69,7 @@ public class GridviewAdapter  extends BaseAdapter
                         .build();
                 imageLoader.displayImage(listImagesURL.get(position), imageView, options);
                 textView.setText(listFormattedAddress.get(position));
+                textViewLatLng.setText(listLatLng.get(position));
             } else {
                 grid = (View) convertView;
             }
