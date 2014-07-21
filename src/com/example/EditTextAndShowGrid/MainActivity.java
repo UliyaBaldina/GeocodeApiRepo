@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
     private ArrayList<String> listImagesURL;
     private ArrayList<String> listLatLng;
     DBHelper dbHelper;
+
     Handler handler=new Handler();
     Thread t;
     final String LOG_TAG = "myLogs";
@@ -88,8 +89,6 @@ public class MainActivity extends Activity {
                                   cur=db.rawQuery("SELECT geocodeDataID as _id, geocodeDataAddress FROM GeocodeData WHERE " +
                                     "geocodeDataAddress=?", new String []{myTextBox.getText().toString()});
                            // Log.i("Lopolp", cur.getCount()+"yes");
-
-
                             if (cur.getCount()==0)
                            {
                                 Log.i("Lopolp", cur+"yes");
@@ -97,11 +96,11 @@ public class MainActivity extends Activity {
                                 for(int k=0; k<=listFormattedAddress.size(); k++) {
                                     ContentValues cv = new ContentValues();
                                     db = dbHelper.getWritableDatabase();
+                                    cv.put(dbHelper.colAddress,myTextBox.getText().toString());
                                     cv.put(dbHelper.colFullAddress,listFormattedAddress.get(k));
                                     cv.put(dbHelper.colImageLink, listImagesURL.get(k));
                                     cv.put(dbHelper.colLatLng, listLatLng.get(k));
-                                    db.insert(dbHelper.resultTable,null, cv);
-
+                                    db.insert(dbHelper.geocodeDataTable,null, cv);
                                 }
                            }
                             else
@@ -149,7 +148,7 @@ public class MainActivity extends Activity {
                 t.start();
             }
         });
-        dbHelper = new DBHelper(this);
+
     }
     /**
      * Async task class to get json by making HTTP call
@@ -248,16 +247,9 @@ public class MainActivity extends Activity {
         static final String geocodeDataTable="GeocodeData";
         static final String colID="geocodeDataID";
         static final String colAddress="geocodeDataAddress";
-        static final String colResult="geocodeDataResult";
-
-
-        static final String resultTable="Result";
-        static final String colResultID="resultID";
         static final String colFullAddress="fullAddress";
         static final String colImageLink="imageLink";
         static final String colLatLng="latLng";
-
-        static final String viewEmps="ViewEmps";
 
         public DBHelper(Context context) {
             // конструктор суперкласса
@@ -268,35 +260,28 @@ public class MainActivity extends Activity {
         public void onCreate(SQLiteDatabase db) {
             Log.d(LOG_TAG, "--- onCreate database ---");
             // создаем таблицу с полями
-            db.execSQL("CREATE TABLE "+resultTable+" ("+colResultID+ " INTEGER PRIMARY KEY , "+colFullAddress+
+            db.execSQL("CREATE TABLE "+geocodeDataTable+" ("+colID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "+colAddress+
+                    " TEXT, "+colFullAddress+
                     " TEXT, "+colImageLink+" TEXT, "+colLatLng+" TEXT)");
 
-            db.execSQL("CREATE TABLE "+geocodeDataTable+" ("+colID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                            colAddress+" TEXT, "+
-                            colResult+" INTEGER NOT NULL ,FOREIGN KEY ("+colResult+") REFERENCES "+
-                    resultTable+" ("+colResultID+"));");
-
-            db.execSQL("CREATE TRIGGER fk_geocoderesult_resid " +
-                            " BEFORE INSERT "+
-                            " ON "+geocodeDataTable+
-                            " FOR EACH ROW BEGIN"+
-                            " SELECT CASE WHEN ((SELECT "+colResultID+" FROM "+resultTable+" WHERE "+
-                    colResultID+"=new."+colResult+" ) IS NULL)"+
-            " THEN RAISE (ABORT,'Foreign Key Violation') END;"+
-                    "  END;");
-
-            db.execSQL("CREATE VIEW "+viewEmps+
-                            " AS SELECT "+geocodeDataTable+"."+colID+" AS _id,"+
-                            " "+geocodeDataTable+"."+colAddress+","+
-                            " "+resultTable+"."+colFullAddress+","+
-                            " "+resultTable+"."+colImageLink+","+
-                            " "+resultTable+"."+colLatLng+""+
-                            " FROM "+geocodeDataTable+" JOIN "+resultTable+
-                            " ON "+geocodeDataTable+"."+colResult+" ="+resultTable+"."+colResultID
-            );
         }
+        public void dropTables(SQLiteDatabase db) {
+
+
+            db.execSQL("DROP TABLE IF EXISTS resultTable");
+        }
+
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS resultTable");
+            Log.i("Yrra", "Yrrrer");
+            /*db.execSQL("DELETE TABLE resultTable");
+            db.execSQL("DELETE TABLE geocodeDataTable");
+            Log.i("Yrra", "Yrrrer");
+            db.execSQL("CREATE TABLE "+geocodeDataTable+" ("+colID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "+colAddress+
+                    " TEXT, "+colFullAddress+
+                    " TEXT, "+colImageLink+" TEXT, "+colLatLng+" TEXT)");
+*/
         }
     }
 }
